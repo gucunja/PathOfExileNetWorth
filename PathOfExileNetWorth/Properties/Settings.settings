@@ -1,0 +1,36 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PathOfExileNetWorth.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="POESESSID" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PoeUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="League" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Standard</Value>
+    </Setting>
+    <Setting Name="poeApiCharacterWindow" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://pathofexile.com/character-window/</Value>
+    </Setting>
+    <Setting Name="NinjaApi" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://poe.ninja/api/Data/</Value>
+    </Setting>
+    <Setting Name="poeApiActiveLeagues" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://api.pathofexile.com/leagues?type=main</Value>
+    </Setting>
+    <Setting Name="refreshTime" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="itemsRefreshTime" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="overlayWindowLocation" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">100, 100</Value>
+    </Setting>
+    <Setting Name="pricingInExalted" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
