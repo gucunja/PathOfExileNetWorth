@@ -12,6 +12,7 @@ namespace PathOfExileNetWorth
 {
     class DataManagement
     {
+        //STUPID COMMENT
         private static string getJSON(string apiAddress)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(apiAddress);
