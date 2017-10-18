@@ -31,7 +31,7 @@ namespace PathOfExileNetWorth
         {
             name = t.n;
             type = t.type;
-            active = true;
+            active = false;
             id = t.id;
         }
 
@@ -98,7 +98,7 @@ namespace PathOfExileNetWorth
             name = c.name;
             @class = c.@class;
             level = c.level;
-            active = true;
+            active = false;
         }
 
         public void ActivateDeactivateCharacter(Dictionary<string, bool> activeCharacters)
