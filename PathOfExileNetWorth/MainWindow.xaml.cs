@@ -44,6 +44,8 @@ namespace PathOfExileNetWorth
 
         private System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
 
+        float res = 0.0f;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -79,25 +81,6 @@ namespace PathOfExileNetWorth
             base.OnStateChanged(e);
         }
 
-        private void btnSaveUserSettings_Click(object sender, RoutedEventArgs e)
-        { 
-            Properties.Settings.Default.POESESSID = tbPOESESSID.Text;
-            Properties.Settings.Default.PoeUsername = tbUsername.Text;
-            Properties.Settings.Default.League = cBLeague.Text;
-            Properties.Settings.Default.pricingInExalted = (bool)rBtnExaltedPricing.IsChecked;
-
-            int x;
-            if (int.TryParse(tbRefreshTime.Text, out x)) { Properties.Settings.Default.refreshTime = x; }
-            if(int.TryParse(tbItemRefreshTime.Text, out x)) { Properties.Settings.Default.itemsRefreshTime = x; }
-            
-            Properties.Settings.Default.Save();
-        }
-
-        private void btnLoadUserSettings_Click(object sender, RoutedEventArgs e)
-        {
-            LoadUserSettings();
-        }
-
         private void LoadUserSettings()
         {
             tbPOESESSID.Text = Properties.Settings.Default.POESESSID;
@@ -110,11 +93,6 @@ namespace PathOfExileNetWorth
             rBtnExaltedPricing.IsChecked = Properties.Settings.Default.pricingInExalted;
         } //TODO: move
 
-        private void btnFetchCharacters_Click(object sender, RoutedEventArgs e)
-        {
-            FetchCharacters();            
-        }
-
         private void FetchCharacters()
         {
             charactersWorker.DoWork += charactersWorker_DoWork;
@@ -122,7 +100,7 @@ namespace PathOfExileNetWorth
             charactersWorker.RunWorkerAsync();
         } //TODO: move
 
-        private void btnSaveCharacters_Click(object sender, RoutedEventArgs e)
+        private void SaveCharacters()
         {
             Dictionary<string, bool> ac = new Dictionary<string, bool>();
             foreach (CharacterOnForm cof in charsOnForm)
@@ -131,7 +109,7 @@ namespace PathOfExileNetWorth
             }
 
             DataManagement.SaveJson(ac, "active_characters.json"); //TODO: handle this moronic case...
-        }
+        }//TODO: move
 
         private void FetchTabs()
         {
@@ -140,12 +118,7 @@ namespace PathOfExileNetWorth
             tabsWorker.RunWorkerAsync();
         } //TODO: move
 
-        private void btnStashTabs_Click(object sender, RoutedEventArgs e)
-        {
-            FetchTabs();
-        }
-
-        private void btnSaveStashTabs_Click(object sender, RoutedEventArgs e)
+        private void SaveTabs()
         {
             Dictionary<string, bool> ast = new Dictionary<string, bool>();
             foreach (StashTabOnForm sof in stashTabsOnForm)
@@ -154,6 +127,16 @@ namespace PathOfExileNetWorth
             }
 
             DataManagement.SaveJson(ast, "active_stash_tabs.json"); //TODO: handle this moronic case...
+        }//TODO: move
+
+        private void btnStashTabs_Click(object sender, RoutedEventArgs e)
+        {
+            FetchTabs();
+        }
+
+        private void btnFetchCharacters_Click(object sender, RoutedEventArgs e)
+        {
+            FetchCharacters();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -223,7 +206,14 @@ namespace PathOfExileNetWorth
 
         private void tabsWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            lblTabStatus.Dispatcher.Invoke(() => { lblTabStatus.Content = "Fetching Tabs..."; });
+            lblTabStatus.Dispatcher.Invoke(() =>
+            {
+                tbPOESESSID.IsEnabled = false;
+                tbUsername.IsEnabled = false;
+                cBLeague.IsEnabled = false;
+                lblTabStatus.Content = "Fetching Tabs...";
+            });
+
             stashTabsOnForm.Clear();
             Stash stash = DataManagement.processJsonFromApi<Stash>(Properties.Settings.Default.poeApiCharacterWindow + "get-stash-items?accountName=" + Properties.Settings.Default.PoeUsername + "&league=" + Properties.Settings.Default.League + "&tabIndex=0&tabs=1"); //TODO: this needs work
             foreach (Tab t in stash.tabs)
@@ -245,14 +235,30 @@ namespace PathOfExileNetWorth
         {
             dgStashTabs.ItemsSource = null;
             dgStashTabs.ItemsSource = stashTabsOnForm;
+            dgStashTabs.Columns[3].MaxWidth = 0.0f; //this hides ID column
             lblTabStatus.Content = "Tabs Fetched at " + DateTime.Now.ToShortTimeString();
 
             tabsWorker.RunWorkerCompleted -= tabsWorker_RunWorkerCompleted;
+
+            if (!charactersWorker.IsBusy)
+            {
+                tbPOESESSID.IsEnabled = true;
+                tbUsername.IsEnabled = true;
+                cBLeague.IsEnabled = true;
+            }
+
+            SaveTabs();
         } //TODO: move
 
         private void charactersWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            lblCharactersStatus.Dispatcher.Invoke(() => { lblCharactersStatus.Content = "Fetching Characters..."; });
+        {            
+            lblCharactersStatus.Dispatcher.Invoke(() =>
+            {
+                tbPOESESSID.IsEnabled = false;
+                tbUsername.IsEnabled = false;
+                cBLeague.IsEnabled = false;
+                lblCharactersStatus.Content = "Fetching Characters...";
+            });
 
             charsOnForm.Clear();
 
@@ -279,14 +285,25 @@ namespace PathOfExileNetWorth
         {
             dgCharacters.ItemsSource = null;
             dgCharacters.ItemsSource = charsOnForm;
+            dgCharacters.Columns[0].IsReadOnly = true; //make columns readonly
+            dgCharacters.Columns[1].IsReadOnly = true;
+            dgCharacters.Columns[2].IsReadOnly = true;
             lblCharactersStatus.Content = "Characters Fetched at " + DateTime.Now.ToShortTimeString();
 
             charactersWorker.RunWorkerCompleted -= charactersWorker_RunWorkerCompleted;
+
+            if (!tabsWorker.IsBusy)
+            {
+                tbPOESESSID.IsEnabled = true;
+                tbUsername.IsEnabled = true;
+                cBLeague.IsEnabled = true;
+            }
+            SaveCharacters();
         } //TODO: move
 
         private void itemsWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (!firstTimeItems) { Thread.Sleep(Properties.Settings.Default.itemsRefreshTime * 1000); } else { Thread.Sleep(5000); }
+            if (!firstTimeItems) { Thread.Sleep(Properties.Settings.Default.itemsRefreshTime * 1000); } else { Thread.Sleep(3000); }
                 
             firstTimeItems = false;
 
@@ -347,28 +364,13 @@ namespace PathOfExileNetWorth
             dataGrid.ItemsSource = null;
             dataGrid.ItemsSource = items;
 
-            float res = 0.0f;
+            res = 0.0f;
             foreach (ItemOnForm i in items)
             {
                 res += i.numberOfItems * i.price;
             }
-            
-            if(Properties.Settings.Default.pricingInExalted)
-            {
-                try
-                {
-                    frm.NetWorthLabelText = Math.Round(res / NinjaPrices.priceOf["Exalted Orb_0"], 2).ToString() + " exa";
-                }
-                catch (Exception exc)
-                {
-                    Console.WriteLine(exc);
-                }
-            }
-            else
-            {
-                frm.NetWorthLabelText = Math.Round(res, 0).ToString() + " chaos";
-            }
-            
+
+            RefreshOverlayNetworth();            
 
             lblItems.Content = "Pricing Complete! Restarting in " + Properties.Settings.Default.itemsRefreshTime + " seconds.";
 
@@ -383,10 +385,33 @@ namespace PathOfExileNetWorth
             }
         }
 
+        private void RefreshOverlayNetworth()
+        {
+            if (Properties.Settings.Default.pricingInExalted)
+            {
+                try
+                {
+                    frm.NetWorthLabelText = Math.Round(res / NinjaPrices.priceOf["Exalted Orb_0"], 2).ToString() + " exa";
+                }
+                catch (Exception exc)
+                {
+                    Console.WriteLine(exc);
+                    frm.NetWorthLabelText = "0 exa";
+                }
+            }
+            else
+            {
+                frm.NetWorthLabelText = Math.Round(res, 0).ToString() + " chaos";
+            }
+        }
+
         private void cBLeague_DropDownClosed(object sender, EventArgs e)
         {
             Properties.Settings.Default.League = cBLeague.Text;
             Properties.Settings.Default.Save();
+
+            FetchCharacters();
+            FetchTabs();
         }
 
         private void btnShowOverlay_Click(object sender, RoutedEventArgs e)
@@ -413,7 +438,7 @@ namespace PathOfExileNetWorth
         {
             if(Properties.Settings.Default.POESESSID == "" || Properties.Settings.Default.PoeUsername == "")
             {
-                MessageBox.Show("Please enter POESESSID and/or Username and save user settings.", "Information", MessageBoxButton.OK);
+                MessageBox.Show("Please enter POESESSID and/or Username", "Information", MessageBoxButton.OK);
                 return;
             }
             NinjaPrices.isRefreshingActive = !NinjaPrices.isRefreshingActive;
@@ -440,16 +465,22 @@ namespace PathOfExileNetWorth
             tbPOESESSID.IsEnabled = !tbPOESESSID.IsEnabled;
             tbUsername.IsEnabled = !tbUsername.IsEnabled;
             cBLeague.IsEnabled = !cBLeague.IsEnabled;
+            btnFetchCharacters.IsEnabled = !btnFetchCharacters.IsEnabled;
+            btnStashTabs.IsEnabled = !btnStashTabs.IsEnabled;
         }
 
         private void rBtnChaosPricing_Checked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.pricingInExalted = (bool)rBtnExaltedPricing.IsChecked;
             Properties.Settings.Default.Save();
+
+            //float x;
+            //if(float.TryParse(frm.NetWorthLabelText,out x))
+            //{
+                RefreshOverlayNetworth();
+            //}
         }
-
-
-
+        
         private void Window_Closed(object sender, EventArgs e)
         {
             ni.Dispose();
@@ -493,5 +524,201 @@ namespace PathOfExileNetWorth
             // GC.SuppressFinalize(this);
         }
         #endregion
+
+        private void btnShowDetails_Click(object sender, RoutedEventArgs e)
+        {
+            if(btnShowDetails.Content.ToString()=="More >>")
+            {
+                btnShowDetails.Content = "<< Less";
+                Width = 1440;
+            }
+            else
+            {
+                btnShowDetails.Content = "More >>";
+                Width = 700;
+            }
+        }
+
+        private void btnPoeSessIdHelp_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://code.google.com/archive/p/procurement/wikis/LoginWithSessionID.wiki");           
+        }
+
+        private void SaveUsername()
+        {
+            Properties.Settings.Default.PoeUsername = tbUsername.Text;
+            Properties.Settings.Default.Save();
+        }
+        private void SavePOESESSID()
+        {
+            Properties.Settings.Default.POESESSID = tbPOESESSID.Text;
+            Properties.Settings.Default.Save();
+        } 
+        private void SaveRefreshTime()
+        {
+            int x;
+            if (int.TryParse(tbRefreshTime.Text, out x)) { Properties.Settings.Default.refreshTime = x; }
+            Properties.Settings.Default.Save();
+        }
+        private void SaveItemRefreshTime()
+        {
+            int x;
+            if (int.TryParse(tbItemRefreshTime.Text, out x)) { Properties.Settings.Default.itemsRefreshTime = x; }
+            Properties.Settings.Default.Save();
+        }
+
+        private void tbUsername_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter || e.Key==Key.Tab)
+            {
+                SaveUsername();
+            }
+        }
+        private void tbPOESESSID_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter || e.Key == Key.Tab)
+            {
+                SavePOESESSID();
+            }
+        }
+        private void tbRefreshTime_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Tab)
+            {
+                SaveRefreshTime();
+            }
+        }
+        private void tbItemRefreshTime_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Tab)
+            {
+                SaveItemRefreshTime();
+            }
+        }
+
+        private void tbUsername_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SaveUsername();
+        }
+        private void tbPOESESSID_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SavePOESESSID();
+        }
+        private void tbRefreshTime_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SaveRefreshTime();
+        }
+        private void tbItemRefreshTime_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SaveItemRefreshTime();
+        }
+
+        private void dgCharacters_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        {
+            dgCharacters.CommitEdit();
+        }
+        private void dgCharacters_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (dgCharacters.SelectedItem != null)
+            {
+                (sender as DataGrid).CellEditEnding -= dgCharacters_CellEditEnding;
+                (sender as DataGrid).CommitEdit();
+                (sender as DataGrid).CommitEdit();
+                (sender as DataGrid).Items.Refresh();
+                (sender as DataGrid).CellEditEnding += dgCharacters_CellEditEnding;
+            }
+            else return;
+            SaveCharacters();
+        }
+
+        #region SingleClickCheckbox
+        private void DataGridCell_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DataGridCell cell = sender as DataGridCell;
+            GridColumnFastEdit(cell, e);
+        }
+        private void DataGridCell_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            DataGridCell cell = sender as DataGridCell;
+            GridColumnFastEdit(cell, e);
+        }
+        private static void GridColumnFastEdit(DataGridCell cell, RoutedEventArgs e)
+        {
+            if (cell == null || cell.IsEditing || cell.IsReadOnly)
+                return;
+
+            DataGrid dataGrid = FindVisualParent<DataGrid>(cell);
+            if (dataGrid == null)
+                return;
+
+            if (!cell.IsFocused)
+            {
+                cell.Focus();
+            }
+
+            if (cell.Content is CheckBox)
+            {
+                if (dataGrid.SelectionUnit != DataGridSelectionUnit.FullRow)
+                {
+                    if (!cell.IsSelected)
+                        cell.IsSelected = true;
+                }
+                else
+                {
+                    DataGridRow row = FindVisualParent<DataGridRow>(cell);
+                    if (row != null && !row.IsSelected)
+                    {
+                        row.IsSelected = true;
+                    }
+                }
+            }
+            else
+            {
+                ComboBox cb = cell.Content as ComboBox;
+                if (cb != null)
+                {
+                    //DataGrid dataGrid = FindVisualParent<DataGrid>(cell);
+                    dataGrid.BeginEdit(e);
+                    cell.Dispatcher.Invoke(
+                     System.Windows.Threading.DispatcherPriority.Background,
+                     new Action(delegate { }));
+                    cb.IsDropDownOpen = true;
+                }
+            }
+        }
+        private static T FindVisualParent<T>(UIElement element) where T : UIElement
+        {
+            UIElement parent = element;
+            while (parent != null)
+            {
+                T correctlyTyped = parent as T;
+                if (correctlyTyped != null)
+                {
+                    return correctlyTyped;
+                }
+
+                parent = VisualTreeHelper.GetParent(parent) as UIElement;
+            }
+            return null;
+        }
+        #endregion
+
+        private void dgStashTabs_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        {
+            dgStashTabs.CommitEdit();
+        }
+        private void dgStashTabs_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (dgStashTabs.SelectedItem != null)
+            {
+                (sender as DataGrid).CellEditEnding -= dgStashTabs_CellEditEnding;
+                (sender as DataGrid).CommitEdit();
+                (sender as DataGrid).CommitEdit();
+                (sender as DataGrid).Items.Refresh();
+                (sender as DataGrid).CellEditEnding += dgStashTabs_CellEditEnding;
+            }
+            else return;
+            SaveTabs();
+        }
     }
 }

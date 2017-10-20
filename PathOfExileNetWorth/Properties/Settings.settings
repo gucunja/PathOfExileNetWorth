@@ -21,10 +21,10 @@
       <Value Profile="(Default)">http://api.pathofexile.com/leagues?type=main</Value>
     </Setting>
     <Setting Name="refreshTime" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
+      <Value Profile="(Default)">15</Value>
     </Setting>
     <Setting Name="itemsRefreshTime" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">15</Value>
+      <Value Profile="(Default)">5</Value>
     </Setting>
     <Setting Name="overlayWindowLocation" Type="System.Drawing.Point" Scope="User">
       <Value Profile="(Default)">100, 100</Value>

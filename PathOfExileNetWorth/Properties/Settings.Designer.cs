@@ -88,7 +88,7 @@ namespace PathOfExileNetWorth.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
         public int refreshTime {
             get {
                 return ((int)(this["refreshTime"]));
@@ -100,7 +100,7 @@ namespace PathOfExileNetWorth.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int itemsRefreshTime {
             get {
                 return ((int)(this["itemsRefreshTime"]));

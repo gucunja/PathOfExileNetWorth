@@ -37,6 +37,7 @@
             this.lblNetWorthOverlay.AutoSize = true;
             this.lblNetWorthOverlay.BackColor = System.Drawing.SystemColors.Control;
             this.lblNetWorthOverlay.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblNetWorthOverlay.ForeColor = System.Drawing.SystemColors.ControlText;
             this.lblNetWorthOverlay.Location = new System.Drawing.Point(35, -1);
             this.lblNetWorthOverlay.Name = "lblNetWorthOverlay";
             this.lblNetWorthOverlay.Size = new System.Drawing.Size(0, 27);

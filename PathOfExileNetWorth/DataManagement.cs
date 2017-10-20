@@ -21,7 +21,7 @@ namespace PathOfExileNetWorth
             cookies.Add(cookie);
 
             request.CookieContainer = cookies;
-            WebResponse response = request.GetResponse(); 
+            WebResponse response = request.GetResponse(); //TODO: handle WebExceptions
             using (Stream responseStream = response.GetResponseStream())
             {
                 StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);

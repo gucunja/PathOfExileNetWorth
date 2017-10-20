@@ -46,8 +46,6 @@ namespace PathOfExileNetWorth
             FormBorderStyle = FormBorderStyle.None;
 
             SetWindowTransparent();
-
-            if (lblNetWorthOverlay.Text == "") { lblNetWorthOverlay.Text = "waiting..."; } 
         }
 
         private void OverlayForm_Deactivate(object sender, EventArgs e)
