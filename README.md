@@ -17,7 +17,7 @@
 
 
 ## Screenshots
-![ss1](https://i.imgur.com/2T4l1MO.png)
+![ss3](https://camo.githubusercontent.com/e61082d1f4414bca74ff7684e59bcac20074650f/68747470733a2f2f692e696d6775722e636f6d2f52676e50536b722e706e67)
 
 ![ss2](https://i.imgur.com/1hQHlBT.jpg)
 (upper right corner, yeah I'm poor :) this can be freely moved all across the screen)
