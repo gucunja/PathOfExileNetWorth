@@ -1,0 +1,30 @@
+﻿<Window x:Class="PathOfExileNetWorth.AboutForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PathOfExileNetWorth"
+        mc:Ignorable="d"
+        Title="About" Height="336" Width="323" WindowStartupLocation="Manual" ResizeMode="NoResize">
+    <Grid>
+        <Label x:Name="label1" Content="version: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,168,0,0"/>
+        <Label x:Name="label2" Content="Feedback &amp; Suggestions" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,199,0,0"/>
+        <TextBlock x:Name="textBlock" TextWrapping="Wrap" VerticalAlignment="Top" Margin="15,10,0,0" Height="150" Width="275" HorizontalAlignment="Left" TextAlignment="Justify"><Run Text="PoE NetWorth is an overlay application written in C#. Problem it solves is desceptively simple - show player's networth and keep it updated while player is immersed in Path of Exile game. Inspired by Ziz's daily currency overview and racing overlays (timer, ladder position). In its full form, this tool should use a proprietary pricing engine API (under development at the moment) to price all possible items with reasonable accuracy."/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+        <Label x:Name="labelForums" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,220,0,0">
+            <Hyperlink NavigateUri="https://www.pathofexile.com/forum/view-thread/2019518" RequestNavigate="Hyperlink_RequestNavigate">
+                Forum
+            </Hyperlink>
+        </Label>
+        <Label x:Name="labelGitHub" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,220,0,0">
+            <Hyperlink NavigateUri="https://github.com/gucunja/PathOfExileNetWorth" RequestNavigate="Hyperlink_RequestNavigate">
+                GitHub
+            </Hyperlink>
+        </Label>
+        <Label x:Name="label" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,265,0,0">
+            <Hyperlink NavigateUri="https://www.paypal.me/gucunja" RequestNavigate="Hyperlink_RequestNavigate">
+                Support the app!
+            </Hyperlink>
+        </Label>
+
+    </Grid>
+</Window>

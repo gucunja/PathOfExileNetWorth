@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PathOfExileNetWorth"
         mc:Ignorable="d"
-        Title="PoE NetWorth" Height="527" Width="700" Loaded="Window_Loaded" Closed="Window_Closed" ResizeMode="CanMinimize">
+        Title="PoE NetWorth" Height="511" Width="700" Loaded="Window_Loaded" Closed="Window_Closed" ResizeMode="CanMinimize">
     <Window.Resources>
         <CollectionViewSource x:Key="characterViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Character}, CreateList=True}"/>
         <Style TargetType="{x:Type DataGridCell}">
@@ -21,7 +21,7 @@
         <Label x:Name="lbLeague" Content="League" HorizontalAlignment="Left" Margin="16,72,0,0" VerticalAlignment="Top" Height="28"/>
         <ComboBox x:Name="cBLeague" HorizontalAlignment="Left" Margin="107,73,0,0" VerticalAlignment="Top" Width="258" DropDownClosed="cBLeague_DropDownClosed"/>
         <DataGrid x:Name="dgStashTabs" Margin="370,42,0,0" HorizontalAlignment="Left" Width="299" Height="358" VerticalAlignment="Top" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserResizeRows="False" CellEditEnding="dgStashTabs_CellEditEnding" PreparingCellForEdit="dgStashTabs_PreparingCellForEdit"/>
-        <Label x:Name="lbCharacters" Content="Characters" HorizontalAlignment="Left" Margin="16,227,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lbCharacters" Content="Characters" HorizontalAlignment="Left" Margin="19,229,0,0" VerticalAlignment="Top"/>
         <Label x:Name="lbCharacters_Copy" Content="Stash Tabs" HorizontalAlignment="Left" Margin="376,16,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.591,-0.115"/>
         <Button x:Name="btnFetchCharacters" Content="🗘" HorizontalAlignment="Left" Margin="340,229,0,0" VerticalAlignment="Top" Width="25" Click="btnFetchCharacters_Click" VerticalContentAlignment="Top" Height="22" HorizontalContentAlignment="Center"/>
         <Button x:Name="btnStashTabs" Content="🗘" HorizontalAlignment="Left" Margin="644,18,0,0" VerticalAlignment="Top" Width="25" Click="btnStashTabs_Click" Height="22" HorizontalContentAlignment="Center" VerticalContentAlignment="Top"/>
@@ -40,15 +40,16 @@
         <Label x:Name="label" Content="Items Refresh Time" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,131,0,0"/>
         <TextBox x:Name="tbItemRefreshTime" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="33" Margin="132,131,0,0" KeyUp="tbItemRefreshTime_KeyUp" LostFocus="tbItemRefreshTime_LostFocus"/>
         <Label x:Name="lbRefreshTime_Copy1" Content="seconds" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,128,0,0" Width="79"/>
-        <Button x:Name="btnShowOverlay" Content="Show/Hide Overlay" HorizontalAlignment="Left" VerticalAlignment="Top" Width="114" Margin="16,410,0,0" Click="btnShowOverlay_Click"/>
-        <CheckBox x:Name="cBoxLockOverlay" Content="Lock Overlay" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="132,413,0,0" IsChecked="True" Click="cBoxLockOverlay_Click_1"/>
-        <RadioButton x:Name="rBtnChaosPricing" Content="Pricing in Chaos" HorizontalAlignment="Left" Margin="376,410,0,0" VerticalAlignment="Top" GroupName="pricingButtons" Checked="rBtnChaosPricing_Checked"/>
-        <RadioButton x:Name="rBtnExaltedPricing" Content="Pricing in Exalted" HorizontalAlignment="Left" Margin="376,435,0,0" VerticalAlignment="Top" GroupName="pricingButtons" Checked="rBtnChaosPricing_Checked"/>
-        <Button x:Name="btnStartStop" Content="START!" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="240,408,0,0" FontWeight="Black" Click="btnStartStop_Click"/>
+        <Button x:Name="btnShowOverlay" Content="Show/Hide Overlay" HorizontalAlignment="Left" VerticalAlignment="Top" Width="114" Margin="86,167,0,0" Click="btnShowOverlay_Click"/>
+        <CheckBox x:Name="cBoxLockOverlay" Content="Lock Overlay" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="202,170,0,0" IsChecked="True" Click="cBoxLockOverlay_Click_1"/>
+        <RadioButton x:Name="rBtnChaosPricing" Content="Pricing in Chaos" HorizontalAlignment="Left" Margin="249,106,0,0" VerticalAlignment="Top" GroupName="pricingButtons" Checked="rBtnChaosPricing_Checked"/>
+        <RadioButton x:Name="rBtnExaltedPricing" Content="Pricing in Exalted" HorizontalAlignment="Left" Margin="249,131,0,0" VerticalAlignment="Top" GroupName="pricingButtons" Checked="rBtnChaosPricing_Checked"/>
+        <Button x:Name="btnStartStop" Content="START!" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="124,200,0,0" FontWeight="Black" Click="btnStartStop_Click"/>
         <Button x:Name="btnShowDetails" Content="More &gt;&gt;" VerticalAlignment="Top" Margin="0,415,17,0" Click="btnShowDetails_Click" HorizontalAlignment="Right" Width="60"/>
         <Label x:Name="lblPrices" Content="Prices" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="690,13,0,0"/>
         <Label x:Name="lblItems1" Content="Items" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="980,16,0,0"/>
         <Button x:Name="btnPoeSessIdHelp" Content="?" HorizontalAlignment="Left" VerticalAlignment="Top" Width="25" Margin="340,16,0,0" Height="23" Click="btnPoeSessIdHelp_Click" ToolTip="Need help with POESESSID?"/>
+        <Button x:Name="button" Content="About" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="16,415,0,0" Click="button_Click"/>
 
     </Grid>
 

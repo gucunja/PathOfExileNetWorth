@@ -52,7 +52,7 @@ namespace PathOfExileNetWorth
             {
                 foreach (Line line in itemP.lines)
                 {
-                    if (priceOf.ContainsKey(line.name +"_" + line.links))
+                    if (priceOf.ContainsKey(line.name + "_" + line.links))
                     {
                         priceOf[line.name + "_" + line.links] = line.chaosValue;
                     }
@@ -68,11 +68,11 @@ namespace PathOfExileNetWorth
             priceOf["Alteration Shard_0"] = priceOf["Orb of Alteration_0"] * 0.05f;
             priceOf["Regal Shard_0"] = priceOf["Regal Orb_0"] * 0.05f;
             priceOf["Alchemy Shard_0"] = priceOf["Orb of Alchemy_0"] * 0.05f;
-            priceOf["Binding Shard_0"] = priceOf["Orb of Binding_0"] * 0.05f;
-            priceOf["Horizon Shard_0"] = priceOf["Orb of Horizons_0"] * 0.05f;
-            priceOf["Engineer's Shard_0"] = priceOf["Engineer's Orb_0"] * 0.05f;
-            priceOf["Harbinger's Shard_0"] = priceOf["Harbinger's Orb_0"] * 0.05f;
-            priceOf["Ancient Shard_0"] = priceOf["Ancient Orb_0"] * 0.05f;
+            if (priceOf.ContainsKey("Orb of Binding_0")) { priceOf["Binding Shard_0"] = priceOf["Orb of Binding_0"] * 0.05f; }
+            if (priceOf.ContainsKey("Orb of Horizons_0")) { priceOf["Horizon Shard_0"] = priceOf["Orb of Horizons_0"] * 0.05f; }
+            if (priceOf.ContainsKey("Engineer's Orb_0")) { priceOf["Engineer's Shard_0"] = priceOf["Engineer's Orb_0"] * 0.05f;}
+            if (priceOf.ContainsKey("Harbinger's Orb_0")) { priceOf["Harbinger's Shard_0"] = priceOf["Harbinger's Orb_0"] * 0.05f;}
+            if (priceOf.ContainsKey("Ancient Orb_0")) { priceOf["Ancient Shard_0"] = priceOf["Ancient Orb_0"] * 0.05f;}
             priceOf["Scroll of Wisdom_0"] = priceOf["Portal Scroll_0"] * 0.25f;
         }
     }

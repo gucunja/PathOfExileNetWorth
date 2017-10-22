@@ -474,11 +474,7 @@ namespace PathOfExileNetWorth
             Properties.Settings.Default.pricingInExalted = (bool)rBtnExaltedPricing.IsChecked;
             Properties.Settings.Default.Save();
 
-            //float x;
-            //if(float.TryParse(frm.NetWorthLabelText,out x))
-            //{
-                RefreshOverlayNetworth();
-            //}
+            RefreshOverlayNetworth();
         }
         
         private void Window_Closed(object sender, EventArgs e)
@@ -544,6 +540,7 @@ namespace PathOfExileNetWorth
             Process.Start("https://code.google.com/archive/p/procurement/wikis/LoginWithSessionID.wiki");           
         }
 
+        #region SavingUserSettings
         private void SaveUsername()
         {
             Properties.Settings.Default.PoeUsername = tbUsername.Text;
@@ -612,7 +609,9 @@ namespace PathOfExileNetWorth
         {
             SaveItemRefreshTime();
         }
+        #endregion
 
+        #region SingleClickCheckbox
         private void dgCharacters_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
             dgCharacters.CommitEdit();
@@ -630,8 +629,7 @@ namespace PathOfExileNetWorth
             else return;
             SaveCharacters();
         }
-
-        #region SingleClickCheckbox
+        
         private void DataGridCell_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DataGridCell cell = sender as DataGridCell;
@@ -701,8 +699,7 @@ namespace PathOfExileNetWorth
             }
             return null;
         }
-        #endregion
-
+        
         private void dgStashTabs_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
             dgStashTabs.CommitEdit();
@@ -719,6 +716,13 @@ namespace PathOfExileNetWorth
             }
             else return;
             SaveTabs();
+        }
+        #endregion
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            AboutForm af = new AboutForm();
+            af.Show();
         }
     }
 }
