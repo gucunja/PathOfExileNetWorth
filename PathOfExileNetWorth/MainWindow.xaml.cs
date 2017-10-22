@@ -363,6 +363,7 @@ namespace PathOfExileNetWorth
         {
             dataGrid.ItemsSource = null;
             dataGrid.ItemsSource = items;
+            //dataGrid.Columns[4].MaxWidth = 0.0f; //hide id column from user
 
             res = 0.0f;
             foreach (ItemOnForm i in items)

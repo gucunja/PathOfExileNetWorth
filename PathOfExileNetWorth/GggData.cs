@@ -197,6 +197,7 @@ namespace PathOfExileNetWorth
         public string source { get; set; }
         public int numberOfItems { get; set; }
         public float price { get; set; }
+        public string id { get; set; } 
 
         public ItemOnForm(Item i, Dictionary<string, float> priceOf)
         {
@@ -221,6 +222,8 @@ namespace PathOfExileNetWorth
             source = i.inventoryId;
             numberOfItems = Math.Max(1,i.stackSize);
             if (priceOf.ContainsKey(name)) { price = priceOf[name]; }
+
+            id = i.id;
         }
     }
          
