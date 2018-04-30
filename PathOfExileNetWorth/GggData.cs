@@ -202,7 +202,7 @@ namespace PathOfExileNetWorth
         public ItemOnForm(Item i, Dictionary<string, float> priceOf)
         {
             Dictionary<int, int> dict = new Dictionary<int, int>();
-            foreach(Socket s in i.sockets)
+            foreach (Socket s in i.sockets ?? Enumerable.Empty<Socket>())
             {
                 if (dict.ContainsKey(s.group)) { dict[s.group]++; } else { dict.Add(s.group, 1); }
             }
